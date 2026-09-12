@@ -328,10 +328,6 @@
             <input id="m-clinic" type="text" placeholder="اسم العيادة" />
           </div>
           <div class="field">
-            <label for="m-city">المدينة</label>
-            <input id="m-city" type="text" placeholder="مثال: رام الله، الخليل، الرياض" />
-          </div>
-          <div class="field">
             <label for="m-phone">رقم الهاتف / واتساب <span class="req">*</span></label>
             <input id="m-phone" type="tel" dir="ltr" placeholder="+970 591 234 567" required />
           </div>
@@ -478,7 +474,6 @@
         name: document.getElementById('m-name').value.trim(),
         specialty: document.getElementById('m-specialty').value,
         clinic: document.getElementById('m-clinic').value.trim(),
-        city: document.getElementById('m-city').value.trim(),
         phone: document.getElementById('m-phone').value.trim(),
         email: emailEl.value.trim(),
         notes: document.getElementById('m-notes').value.trim()
@@ -489,7 +484,6 @@
       text += `\n• الاسم: ${data.name}`;
       text += `\n• التخصص: ${data.specialty}`;
       if (data.clinic) text += `\n• العيادة/المستشفى: ${data.clinic}`;
-      if (data.city) text += `\n• المدينة: ${data.city}`;
       text += `\n• الهاتف: ${data.phone}`;
       if (data.email) text += `\n• البريد: ${data.email}`;
       if (data.notes) text += `\n\n📝 *المطلوب*:\n${data.notes}`;
