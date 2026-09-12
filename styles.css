@@ -203,11 +203,12 @@ html[lang="en"] .contact-inner h2 { white-space: normal; }
   font-size: .92rem;
 }
 .hero-title {
-  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+  font-size: clamp(1.5rem, 4.1vw, 3rem);
   font-weight: 800;
   color: var(--text);
   margin-bottom: 20px;
   letter-spacing: -.01em;
+  white-space: nowrap;
 }
 .hero-lead { font-size: 1.22rem; color: var(--text); margin: 0 0 14px; font-weight: 500; }
 .hero-sub { font-size: 1.05rem; color: var(--muted); margin: 0 0 34px; }
@@ -713,7 +714,7 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 600px) {
   body { font-size: .94rem; line-height: 1.75; }
   .hero { padding: 54px 0 58px; }
-  .hero-title { font-size: 2.15rem; }
+  .hero-title { font-size: 1.5rem; white-space: nowrap; }
   .hero-lead { font-size: 1.02rem; }
   .hero-sub { font-size: .95rem; }
   .eyebrow, .hero-status { font-size: .8rem; }
@@ -898,6 +899,11 @@ body.modal-open { overflow: hidden; }
 /* Mobile: shrink hero photo ~30% */
 @media (max-width: 600px) {
   .hero-portrait { max-width: 210px; }
+}
+
+/* Tiny screens: keep the hero title on one line */
+@media (max-width: 380px) {
+  .hero-title { font-size: 1.2rem; white-space: nowrap; }
 }
 
 
