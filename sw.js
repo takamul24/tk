@@ -1,8 +1,9 @@
-const CACHE_NAME = 'takamul-v3';
+const CACHE_NAME = 'takamul-v4';
 const BASE = self.registration.scope;
 const ASSETS = [
   './',
   './index.html',
+  './medical.html',
   './zuwar/app.html',
   './zuwar/screens/home.png',
   './zuwar/screens/menu.png',
