@@ -1,22 +1,17 @@
-const CACHE_NAME = 'takamul-v2';
+const CACHE_NAME = 'takamul-v3';
 const BASE = self.registration.scope;
 const ASSETS = [
   './',
   './index.html',
-  './about.html',
-  './services.html',
-  './contact.html',
-  './portfolio.html',
-  './faq.html',
-  './service-web.html',
-  './service-ecommerce.html',
-  './service-apps.html',
-  './service-marketing.html',
-  './service-seo.html',
-  './service-solutions.html',
+  './zuwar/app.html',
+  './zuwar/screens/home.png',
+  './zuwar/screens/menu.png',
+  './zuwar/screens/dish.png',
+  './zuwar/screens/reservation.png',
   './styles.css',
   './script.js',
   './logo-takamul.png',
+  './favicon.svg',
   './manifest.json'
 ];
 

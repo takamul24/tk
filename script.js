@@ -1,38 +1,76 @@
-/* ===== TAKAMUL IT Solutions — Scripts ===== */
+// TAKAMUL IT Solutions — Bilingual toggle (Arabic default, English optional)
+const langToggle = document.getElementById('langToggle');
+const LANG_KEY = 'site-lang';
+
+function applyLang(lang) {
+  const en = lang === 'en';
+  const root = document.documentElement;
+  root.lang = en ? 'en' : 'ar';
+  root.dir = en ? 'ltr' : 'rtl';
+
+  document.querySelectorAll('[data-en]').forEach((el) => {
+    if (el.dataset.ar === undefined) el.dataset.ar = el.innerHTML.trim();
+    el.innerHTML = en ? el.dataset.en : el.dataset.ar;
+  });
+  document.querySelectorAll('[data-en-label]').forEach((el) => {
+    if (el.dataset.arLabel === undefined) el.dataset.arLabel = el.getAttribute('aria-label') || '';
+    el.setAttribute('aria-label', en ? el.dataset.enLabel : el.dataset.arLabel);
+  });
+  document.querySelectorAll('[data-en-ph]').forEach((el) => {
+    if (el.dataset.arPh === undefined) el.dataset.arPh = el.getAttribute('placeholder') || '';
+    el.setAttribute('placeholder', en ? el.dataset.enPh : el.dataset.arPh);
+  });
+
+  if (langToggle) {
+    langToggle.textContent = en ? 'العربية' : 'EN';
+    langToggle.setAttribute('aria-label', en ? 'التبديل إلى العربية' : 'Switch to English');
+  }
+  try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+}
+
+let savedLang = 'ar';
+try { if (localStorage.getItem(LANG_KEY) === 'en') savedLang = 'en'; } catch (e) {}
+applyLang(savedLang);
+
+if (langToggle) {
+  langToggle.addEventListener('click', () => {
+    applyLang(document.documentElement.lang === 'ar' ? 'en' : 'ar');
+  });
+}
 
 // Mobile navigation toggle
 const navToggle = document.getElementById('navToggle');
 const nav = document.getElementById('nav');
-if (navToggle && nav) {
-  navToggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    navToggle.classList.toggle('open', open);
-    navToggle.setAttribute('aria-expanded', String(open));
-  });
-  nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      navToggle.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-  // Mobile dropdown toggle
-  document.querySelectorAll('.nav-item > .nav-link').forEach(link => {
-    link.addEventListener('click', e => {
-      if (window.innerWidth <= 768) {
-        e.preventDefault();
-        link.closest('.nav-item').classList.toggle('open');
-      }
-    });
-  });
-}
 
-// Header shadow on scroll + progress bar
-const header = document.querySelector('.site-header');
+navToggle.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  navToggle.classList.toggle('open', open);
+  navToggle.setAttribute('aria-expanded', String(open));
+});
+
+nav.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// Scroll to the very top for links to #top (back-to-top button + logo)
+document.querySelectorAll('.back-top, a.logo').forEach((el) => {
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Scroll progress bar
 const progress = document.createElement('div');
 progress.className = 'scroll-progress';
 document.body.appendChild(progress);
 
+// Header shadow on scroll
+const header = document.querySelector('.site-header');
 const onScroll = () => {
   const h = document.documentElement;
   const scrolled = h.scrollTop || document.body.scrollTop;
@@ -43,191 +81,105 @@ const onScroll = () => {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-// Reveal on scroll
-const revealEls = document.querySelectorAll('.feature-card, .why-item, .step, .work-card, .section-head, .faq-item, .contact-item, .split-col');
-revealEls.forEach(el => el.classList.add('reveal'));
+// Reveal-on-scroll animation (with per-group stagger)
+const revealEls = document.querySelectorAll(
+  '.card, .feature, .work, .zscreen, .zuwar-intro, .section-head, .contact-inner, .contact-actions, .contact-footer, .hire-panel'
+);
+revealEls.forEach((el) => el.classList.add('reveal'));
 
-// Stagger grid children
-document.querySelectorAll('.feature-cards, .why-list, .steps-grid, .portfolio-grid, .faq-list').forEach(grid => {
+document.querySelectorAll('.cards, .features, .portfolio-grid, .zuwar-gallery').forEach((grid) => {
   Array.from(grid.children).forEach((child, i) => {
-    child.classList.add('reveal');
-    child.style.transitionDelay = (i * 0.1) + 's';
+    child.style.transitionDelay = (i % 3) * 0.09 + 0.05 * Math.floor(i / 3) + 's';
   });
 });
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-      setTimeout(() => { entry.target.style.transitionDelay = ''; }, 1200);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => observer.observe(el));
-
-// FAQ accordion
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    const item = q.closest('.faq-item');
-    const wasOpen = item.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-    // Toggle current
-    if (!wasOpen) item.classList.add('open');
-  });
-});
-
-// Back to top
-document.querySelectorAll('.back-top').forEach(el => {
-  el.addEventListener('click', e => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-});
-
-// Contact form → WhatsApp
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  // Arabic validation messages
-  const validationRules = [
-    { id: 'name', msg: 'الرجاء إدخال الاسم الكامل' },
-    { id: 'phone', msg: 'الرجاء إدخال رقم الهاتف' },
-    { id: 'email', msg: 'الرجاء إدخال البريد الإلكتروني' },
-    { id: 'service', msg: 'الرجاء اختيار نوع الخدمة' },
-    { id: 'message', msg: 'الرجاء إدخال تفاصيل المشروع' },
-  ];
-
-  contactForm.addEventListener('submit', e => {
-    e.preventDefault();
-
-    // Custom Arabic validation
-    for (const rule of validationRules) {
-      const el = document.getElementById(rule.id);
-      if (!el.value.trim()) {
-        el.focus();
-        el.style.borderColor = '#ef4444';
-        setTimeout(() => { el.style.borderColor = ''; }, 3000);
-        alert(rule.msg);
-        return;
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+        setTimeout(() => { entry.target.style.transitionDelay = ''; }, 1000);
       }
-    }
-    // Email format check
-    const emailEl = document.getElementById('email');
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRe.test(emailEl.value.trim())) {
-      emailEl.focus();
-      emailEl.style.borderColor = '#ef4444';
-      setTimeout(() => { emailEl.style.borderColor = ''; }, 3000);
-      alert('الرجاء إدخال بريد إلكتروني صحيح');
-      return;
-    }
+    });
+  },
+  { threshold: 0.12 }
+);
+revealEls.forEach((el) => observer.observe(el));
 
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const service = document.getElementById('service').value;
-    const budget = document.getElementById('budget').value.trim();
-    const message = document.getElementById('message').value.trim();
-    
-    let text = `مرحباً تكامل 👋`;
-    text += `\n\n📩 *بيانات التواصل*:`;
-    text += `\n• الاسم: ${name}`;
-    text += `\n• الهاتف: ${phone}`;
-    text += `\n• البريد: ${email}`;
-    text += `\n\n🛠️ *تفاصيل المشروع*:`;
-    text += `\n• الخدمة: ${service}`;
-    if (budget) text += `\n• الميزانية: ${budget}`;
-    text += `\n\n📝 *وصف المشروع*:`;
-    text += `\n${message}`;
-    
-    const whatsappURL = `https://wa.me/970599268700?text=${encodeURIComponent(text)}`;
-    window.open(whatsappURL, '_blank');
-    
-    contactForm.reset();
-    const btn = contactForm.querySelector('button[type="submit"]');
-    btn.innerHTML = '✅ تم فتح واتساب';
-    btn.style.background = '#10b981';
+// ===== Consultation modal =====
+const consultModal = document.getElementById('consultModal');
+const openConsultBtn = document.getElementById('openConsult');
+if (consultModal && openConsultBtn) {
+  const cBody = document.getElementById('consultBody');
+  const cThanks = document.getElementById('consultThanks');
+  const cForm = document.getElementById('consultForm');
+
+  const openModal = () => {
+    cBody.hidden = false;
+    cThanks.hidden = true;
+    consultModal.hidden = false;
+    document.body.classList.add('modal-open');
+    const first = document.getElementById('cm-name');
+    if (first) setTimeout(() => first.focus(), 50);
+  };
+  const closeModal = () => {
+    consultModal.hidden = true;
+    document.body.classList.remove('modal-open');
+  };
+
+  openConsultBtn.addEventListener('click', openModal);
+  consultModal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeModal));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !consultModal.hidden) closeModal();
+  });
+
+  const WHATSAPP_NUMBER = '970599268700';
+
+  cForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!cForm.checkValidity()) { cForm.reportValidity(); return; }
+
+    const en = document.documentElement.lang === 'en';
+    const btn = cForm.querySelector('button[type="submit"]');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+
+    const name = document.getElementById('cm-name').value.trim();
+    const email = document.getElementById('cm-email').value.trim();
+    const phone = document.getElementById('cm-phone').value.trim();
+    const message = document.getElementById('cm-message').value.trim();
+
+    const text = en
+      ? `Hello TAKAMUL 👋\n\n📩 Contact info:\n• Name: ${name}\n• Phone: ${phone}\n• Email: ${email}\n\n📝 Project details:\n${message}`
+      : `مرحباً تكامل 👋\n\n📩 بيانات التواصل:\n• الاسم: ${name}\n• الهاتف: ${phone}\n• البريد: ${email}\n\n📝 تفاصيل المشروع:\n${message}`;
+
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
     setTimeout(() => {
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg> إرسال الطلب';
-      btn.style.background = '';
-    }, 3000);
+      window.open(whatsappURL, '_blank');
+      btn.disabled = false;
+      btn.innerHTML = orig;
+      cForm.reset();
+      cBody.hidden = true;
+      cThanks.hidden = false;
+    }, 250);
   });
 }
 
-/* ===== Active Dropdown ===== */
-const servicePages = ['service-web.html','service-ecommerce.html','service-apps.html','service-marketing.html','service-seo.html','service-solutions.html','services.html'];
-const currentPage = window.location.pathname.split('/').pop();
-if (servicePages.includes(currentPage)) {
-  const navItem = document.querySelector('.nav-item');
-  if (navItem) {
-    const link = navItem.querySelector('.nav-link');
-    link.classList.add('active');
-  }
-}
-
-/* ===== PWA Install ===== */
-let deferredPrompt = null;
-const installBtn = document.getElementById('pwaInstallBtn');
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-// Show install button on iOS (always) or Android (when beforeinstallprompt fires)
-if (isIOS && !isStandalone && installBtn) {
-  installBtn.style.display = 'inline-block';
-}
-
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (installBtn && !isStandalone) installBtn.style.display = 'inline-block';
-});
-
-window.addEventListener('appinstalled', () => {
-  deferredPrompt = null;
-  if (installBtn) installBtn.style.display = 'none';
-});
-
-function installPWA() {
-  // If already installed, do nothing
-  if (isStandalone) return;
-
-  if (deferredPrompt) {
-    // Android: native install prompt
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(choice => {
-      deferredPrompt = null;
-      if (installBtn) installBtn.style.display = 'none';
-    });
-  } else if (isIOS) {
-    // iOS: show step-by-step instructions
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);';
-    modal.innerHTML = `
-      <div style="background:#fff;border-radius:16px;padding:32px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);">
-        <div style="font-size:48px;margin-bottom:16px;">📲</div>
-        <h3 style="margin:0 0 8px;color:#1e293b;font-size:1.2rem;">إضافة تكامل للشاشة الرئيسية</h3>
-        <div style="text-align:right;direction:rtl;margin:20px 0;padding:20px;background:#f1f5f9;border-radius:12px;">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-            <span style="background:#2563eb;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;">1</span>
-            <span style="color:#475569;">اضغط على أيقونة <b>المشاركة</b> <span style="font-size:1.2rem;">⬆️</span> في شريط Safari</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-            <span style="background:#2563eb;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;">2</span>
-            <span style="color:#475569;">اختر <b>"إضافة إلى الشاشة الرئيسية"</b></span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="background:#2563eb;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;">3</span>
-            <span style="color:#475569;">اضغط <b>"إضافة"</b> في الأعلى</span>
-          </div>
-        </div>
-        <button onclick="this.closest('div[style]').parentElement.remove()" style="margin-top:12px;padding:12px 32px;background:#2563eb;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:1rem;font-weight:600;">فهمت ✓</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-  } else {
-    // Android (older browsers without beforeinstallprompt)
-    alert('لإضافة تكامل إلى الشاشة الرئيسية:\n\n1. اضغط على النقاط الثلاث (⋮) في المتصفح\n2. اختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية"');
-  }
-}
+// Localized form validation messages
+(function () {
+  const dict = {
+    ar: { fill: 'يرجى تعبئة هذا الحقل', email: 'يرجى إدخال بريد إلكتروني صحيح', check: 'يرجى التحقق من هذا الحقل' },
+    en: { fill: 'Please fill out this field.', email: 'Please enter a valid email address.', check: 'Please check this field.' }
+  };
+  const msgFor = (el) => {
+    const t = dict[document.documentElement.lang === 'en' ? 'en' : 'ar'];
+    if (el.validity.valueMissing) return t.fill;
+    if (el.validity.typeMismatch) return el.type === 'email' ? t.email : t.check;
+    return t.check;
+  };
+  document.querySelectorAll('#consultForm input, #consultForm textarea').forEach((el) => {
+    el.addEventListener('invalid', () => el.setCustomValidity(msgFor(el)));
+    el.addEventListener('input', () => el.setCustomValidity(''));
+  });
+})();

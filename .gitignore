@@ -1,2 +1,5 @@
 .freebuff/
 كيف احصل على عملاء.txt
+node_modules/
+*.log
+Thumbs.db

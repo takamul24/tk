@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تطبيق مطعم زوّار — معاينة حية | تكامل</title>
+  <meta name="description" content="معاينة حية لتصميم تطبيق مطعم وكافيه زوّار في الخليل: الرئيسية، قائمة الطعام، تفاصيل الطبق، وحجز الطاولة وطلب الخدمة." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <style>
+    :root{
+      --navy:#07172C; --navy-2:#0E294B; --navy-3:#173660;
+      --gold:#C59B27; --gold-2:#E5C86E; --gold-deep:#9E7B1A;
+      --cream:#FBF9F5; --ink:#0f1a40;
+      --line:rgba(197,155,39,.28);
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    body{
+      font-family:"Cairo",system-ui,sans-serif;
+      color:#eaf1ff;
+      min-height:100vh;
+      background:
+        radial-gradient(1100px 600px at 85% -10%, rgba(197,155,39,.16), transparent 60%),
+        radial-gradient(900px 700px at 0% 110%, rgba(23,54,96,.55), transparent 60%),
+        linear-gradient(160deg,#07172C 0%,#0b2038 55%,#07172C 100%);
+      display:flex; flex-direction:column;
+    }
+    a{text-decoration:none;color:inherit;}
+
+    /* Top bar */
+    .bar{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:16px clamp(16px,4vw,40px);
+      border-bottom:1px solid rgba(197,155,39,.18);
+      background:rgba(7,23,44,.55); backdrop-filter:blur(8px);
+      position:sticky; top:0; z-index:20;
+    }
+    .brand{display:flex; align-items:center; gap:12px; min-width:0;}
+    .brand-mark{
+      width:44px;height:44px;border-radius:13px;flex:none;
+      display:grid;place-items:center;
+      background:linear-gradient(150deg,var(--gold-2),var(--gold-deep));
+      color:var(--navy); font-weight:800; font-size:1.25rem; line-height:1;
+      box-shadow:0 6px 18px rgba(197,155,39,.35);
+    }
+    .brand-txt{min-width:0;}
+    .brand-txt b{display:block;font-size:1.05rem;font-weight:800;letter-spacing:.01em;white-space:nowrap;}
+    .brand-txt span{display:block;font-size:.72rem;color:#b9c8e4;font-weight:500;white-space:nowrap;}
+    .back{
+      display:inline-flex;align-items:center;gap:7px;flex:none;
+      font-size:.9rem;font-weight:600;color:#dbe6ff;
+      border:1px solid rgba(219,230,255,.22);border-radius:999px;
+      padding:9px 16px;transition:.2s;white-space:nowrap;
+    }
+    .back:hover{background:rgba(255,255,255,.08);border-color:var(--gold);color:#fff;}
+    .back svg{width:16px;height:16px;}
+    .back-short{display:none;}
+
+    /* Intro */
+    .intro{text-align:center;padding:30px 20px 6px;}
+    .intro h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.1rem);font-weight:800;}
+    .intro h1 .g{color:var(--gold-2);}
+    .intro p{margin:0 auto;max-width:560px;color:#b9c8e4;font-size:1rem;line-height:1.8;}
+
+    /* Tabs */
+    .tabs{
+      display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+      padding:22px 16px 6px;
+    }
+    .tab{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 20px;border-radius:999px;cursor:pointer;
+      font-family:inherit;font-size:.95rem;font-weight:700;
+      color:#cdd9f0;background:rgba(255,255,255,.04);
+      border:1px solid rgba(197,155,39,.22);transition:.22s;
+    }
+    .tab .dot{width:7px;height:7px;border-radius:50%;background:transparent;transition:.22s;}
+    .tab:hover{color:#fff;border-color:var(--gold);}
+    .tab.active{
+      color:var(--navy);
+      background:linear-gradient(150deg,var(--gold-2),var(--gold));
+      border-color:transparent;box-shadow:0 8px 22px rgba(197,155,39,.32);
+    }
+    .tab.active .dot{background:var(--navy);}
+
+    /* Stage + phone */
+    .stage{
+      flex:1;display:flex;flex-direction:column;align-items:center;
+      padding:26px 16px 50px;gap:16px;
+    }
+    .screen-label{font-size:.9rem;color:#b9c8e4;font-weight:600;letter-spacing:.03em;}
+    .screen-label b{color:var(--gold-2);}
+    .phone{
+      position:relative;width:390px;max-width:94vw;
+      aspect-ratio:390/844;border-radius:52px;padding:14px;
+      background:linear-gradient(160deg,#1b2b44,#0a1830);
+      box-shadow:
+        0 2px 0 1px rgba(197,155,39,.25) inset,
+        0 40px 80px -20px rgba(0,0,0,.7),
+        0 0 0 2px rgba(197,155,39,.18);
+    }
+    .phone::before{ /* notch */
+      content:"";position:absolute;top:14px;left:50%;transform:translateX(-50%);
+      width:150px;height:26px;background:#060f1e;border-radius:0 0 16px 16px;z-index:3;
+    }
+    .phone-screen{
+      position:relative;width:100%;height:100%;
+      border-radius:40px;overflow:hidden;background:var(--cream);
+      box-shadow:0 0 0 1px rgba(0,0,0,.4) inset;
+    }
+    .phone-screen iframe{width:100%;height:100%;border:0;display:block;background:var(--cream);}
+    .phone-loader{
+      position:absolute;inset:0;display:grid;place-items:center;
+      background:var(--cream);color:var(--gold-deep);z-index:2;transition:opacity .4s;
+    }
+    .phone-loader.hidden{opacity:0;pointer-events:none;}
+    .spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(158,123,26,.25);
+      border-top-color:var(--gold-deep);animation:spin .8s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    .hint{display:flex;align-items:center;gap:8px;color:#8ea3c6;font-size:.85rem;}
+    .hint svg{width:15px;height:15px;}
+    .open-raw{
+      display:inline-flex;align-items:center;gap:7px;margin-top:2px;
+      font-size:.85rem;font-weight:600;color:var(--gold-2);
+      border-bottom:1px dashed rgba(197,155,39,.5);padding-bottom:2px;
+    }
+    .open-raw:hover{color:#fff;}
+
+    @media (max-width:600px){
+      .bar{padding:12px 16px;gap:10px;}
+      .brand{gap:10px;}
+      .brand-mark{width:38px;height:38px;border-radius:11px;font-size:1.05rem;}
+      .brand-txt b{font-size:.92rem;}
+      .brand-txt span{font-size:.66rem;}
+      .back{padding:8px 13px;font-size:.85rem;}
+      .back-long{display:none;}
+      .back-short{display:inline;}
+
+      .intro{padding:22px 18px 4px;}
+      .intro h1{font-size:1.4rem;line-height:1.5;}
+      .intro p{font-size:.9rem;line-height:1.7;}
+
+      .tabs{gap:8px;padding:16px 12px 4px;}
+      .tab{padding:8px 15px;font-size:.85rem;}
+
+      .stage{padding:20px 14px 40px;gap:12px;}
+      .screen-label{font-size:.82rem;text-align:center;}
+      .hint{font-size:.78rem;text-align:center;justify-content:center;}
+      .hint svg{flex:none;}
+      .open-raw{font-size:.82rem;}
+    }
+    @media (max-width:480px){
+      .phone{border-radius:44px;padding:11px;}
+      .phone-screen{border-radius:34px;}
+      .tab{padding:8px 13px;font-size:.82rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <a class="brand" href="../index.html#zuwar">
+      <span class="brand-mark">ز</span>
+      <span class="brand-txt"><b>مطعم وكافيه زوّار</b><span>معاينة تصميم التطبيق</span></span>
+    </a>
+    <a class="back" href="../index.html#zuwar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      <span class="back-long">رجوع لموقع تكامل</span>
+      <span class="back-short">رجوع</span>
+    </a>
+  </div>
+
+  <div class="intro">
+    <h1>تطبيق <span class="g">زوّار</span> — نموذج تفاعلي</h1>
+    <p>تصفّح شاشات التطبيق كما تظهر على الجوال فعليًا. اختر الشاشة من الأعلى لتجربتها مباشرةً داخل الإطار.</p>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="stage">
+    <div class="screen-label" id="screenLabel"></div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-loader" id="loader"><div class="spin"></div></div>
+        <iframe id="frame" title="معاينة شاشة تطبيق زوّار" loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      يمكنك التمرير داخل الشاشة لاستعراض كامل الصفحة
+    </div>
+    <a class="open-raw" id="openRaw" target="_blank" rel="noopener">فتح الشاشة في صفحة كاملة ↗</a>
+  </div>
+
+  <script>
+    var SCREENS = [
+      { key:"home",        file:"screens/home.png",        label:"الرئيسية",          desc:"واجهة الاستقبال والأطباق المميزة" },
+      { key:"menu",        file:"screens/menu.png",        label:"قائمة الطعام",       desc:"عرض الأصناف بالصور والأسعار" },
+      { key:"dish",        file:"screens/dish.png",        label:"تفاصيل الطبق",       desc:"خيارات الطهي والإضافات والطلب" },
+      { key:"reservation", file:"screens/reservation.png", label:"الحجز والخدمة",      desc:"حجز طاولة، طلب الجرسون والفاتورة" }
+    ];
+    var tabs = document.getElementById("tabs");
+    var frame = document.getElementById("frame");
+    var loader = document.getElementById("loader");
+    var label = document.getElementById("screenLabel");
+    var openRaw = document.getElementById("openRaw");
+
+    function params(){ try { return new URLSearchParams(location.search); } catch(e){ return { get:function(){return null;} }; } }
+    var startKey = params().get("screen") || "home";
+    if(!SCREENS.some(function(s){return s.key===startKey;})) startKey = "home";
+
+    SCREENS.forEach(function(s){
+      var b = document.createElement("button");
+      b.className = "tab";
+      b.type = "button";
+      b.innerHTML = '<span class="dot"></span>' + s.label;
+      b.setAttribute("data-key", s.key);
+      b.addEventListener("click", function(){ select(s.key); });
+      tabs.appendChild(b);
+    });
+
+    function select(key){
+      var s = SCREENS.filter(function(x){return x.key===key;})[0];
+      if(!s) return;
+      loader.classList.remove("hidden");
+      frame.src = s.file;
+      openRaw.href = s.file;
+      label.innerHTML = '<b>' + s.label + '</b> — ' + s.desc;
+      Array.prototype.forEach.call(tabs.children, function(b){
+        b.classList.toggle("active", b.getAttribute("data-key")===key);
+      });
+      try { history.replaceState(null,"","?screen="+key); } catch(e){}
+    }
+
+    frame.addEventListener("load", function(){ loader.classList.add("hidden"); });
+    select(startKey);
+  </script>
+</body>
+</html>
