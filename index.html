@@ -255,76 +255,101 @@
     </div>
   </section>
 
-  <!-- Other work: Zuwar Restaurant App (dedicated showcase) -->
-  <section class="section zuwar" id="zuwar">
-    <div class="zuwar-bg" aria-hidden="true"></div>
+  <!-- Other work: Restaurant Menus -->
+  <section class="section" id="menus" style="background: linear-gradient(135deg, #0f1a40 0%, #1a2a5c 50%, #0d1533 100%);">
     <div class="container">
-      <div class="section-head zuwar-head">
-        <span class="kicker" data-en="Other Work">أعمال أخرى</span>
-        <h2 data-en="Zuwar Restaurant &amp; Café App">تطبيق مطعم وكافيه زوّار</h2>
-        <p data-en="A complete UI/UX concept for a modern Palestinian fine-dining app in Hebron — browse the interactive screens below.">تصميم متكامل لواجهة تطبيق مطعم فاخر في الخليل — استعرض شاشات التطبيق التفاعلية بالأسفل.</p>
+      <div class="section-head">
+        <span class="kicker" style="background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.2);" data-en="Other Work">أعمال أخرى</span>
+        <h2 style="color: #fff;" data-en="Restaurant Menu Showcases">قوائم مطاعم تفاعلية</h2>
+        <p style="color: #b9c4e0;" data-en="Interactive menu experiences we designed for restaurants — browse the live previews below.">
+          تجارب قوائم تفاعلية صممناها للمطاعم — استعرض المعاينات الحية بالأسفل.
+        </p>
       </div>
 
-      <div class="zuwar-showcase">
-        <div class="zuwar-intro">
-          <span class="zuwar-badge"><span class="zb-mark">ز</span> مشروع مميّز · Featured</span>
-          <h3 data-en="From a digital menu to a complete dining experience">من منيو رقمي إلى تجربة ضيافة متكاملة</h3>
-          <p data-en="A complete app design for Zuwar Restaurant &amp; Café in the heart of Hebron: a luxurious navy-and-gold identity, a photo-rich menu, dish customization, in-place table booking, waiter and bill requests, and live order tracking.">
-            صمّم فريقنا تجربة تطبيق كاملة لمطعم وكافيه زوّار في قلب مدينة الخليل: هوية فاخرة بالأزرق الملكي والذهبي،
-            قائمة طعام غنية بالصور، تخصيص الأطباق والإضافات، حجز الطاولات داخل المكان، طلب الجرسون والفاتورة،
-            وتتبّع الطلب لحظيًا.
-          </p>
-          <ul class="zuwar-feats">
-            <li data-en="🍽️ Photo-rich interactive menu">🍽️ قائمة طعام تفاعلية بالصور</li>
-            <li data-en="🪑 In-place table reservation">🪑 حجز الطاولات داخل المكان</li>
-            <li data-en="🔔 Waiter &amp; bill requests">🔔 طلب الجرسون والفاتورة</li>
-            <li data-en="⚙️ Dish customization &amp; add-ons">⚙️ تخصيص الأطباق والإضافات</li>
-          </ul>
-          <div class="zuwar-actions">
-            <a class="btn btn-gold btn-lg" href="zuwar/app.html?screen=home" target="_blank" rel="noopener" data-en="Open live preview">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
-              معاينة حيّة للتطبيق
-            </a>
-            <a class="btn btn-outline-gold btn-lg" href="https://zuwar.ps/menu" target="_blank" rel="noopener" data-en="Visit the live menu">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              زيارة المنيو المباشر
-            </a>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px; margin-top: 40px;">
+        <!-- Zuwar Menu -->
+        <a href="zuwar/app.html?screen=home" target="_blank" rel="noopener" style="text-decoration: none; display: block;">
+          <div style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; overflow: hidden; transition: all .3s ease; backdrop-filter: blur(10px);" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 50px rgba(0,0,0,.3)'; this.style.borderColor='rgba(229,200,110,.4)';" onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255,255,255,.1)';">
+            <!-- Image -->
+            <div style="position: relative; height: 220px; overflow: hidden; background: linear-gradient(135deg, #1a2a5c, #0f1a40);">
+              <img src="zuwar/screens/home.png" alt="قائمة مطعم زوّار" style="width: 100%; height: 100%; object-fit: cover; opacity: .9;" loading="lazy" />
+              <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,26,64,.9), transparent);"></div>
+              <div style="position: absolute; top: 16px; right: 16px; display: flex; gap: 8px;">
+                <span style="padding: 6px 14px; border-radius: 999px; background: rgba(229,200,110,.9); color: #0f1a40; font-size: .75rem; font-weight: 700;">餐厅</span>
+              </div>
+              <div style="position: absolute; bottom: 16px; right: 16px; left: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite;"></span>
+                  <span style="color: #fff; font-size: .8rem; font-weight: 600;">تطبيق تفاعلي</span>
+                </div>
+              </div>
+            </div>
+            <!-- Content -->
+            <div style="padding: 24px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <h3 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin: 0;" data-en="Zuwar Restaurant">مطعم وكافيه زوّار</h3>
+                <span style="color: #E5C86E; font-size: 1.2rem;">→</span>
+              </div>
+              <p style="color: #b9c4e0; font-size: .9rem; line-height: 1.7; margin: 0 0 16px;" data-en="A complete UI/UX concept for a modern Palestinian fine-dining app in Hebron — browse the interactive screens below.">
+                تصميم متكامل لواجهة تطبيق مطعم فاخر في الخليل: قائمة طعام تفاعلية بالصور، حجز طاولات، وطلب الخدمة.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                <span style="padding: 5px 12px; border-radius: 8px; background: rgba(229,200,110,.15); color: #E5C86E; font-size: .75rem; font-weight: 600;">قائمة تفاعلية</span>
+                <span style="padding: 5px 12px; border-radius: 8px; background: rgba(229,200,110,.15); color: #E5C86E; font-size: .75rem; font-weight: 600;">حجز طاولات</span>
+                <span style="padding: 5px 12px; border-radius: 8px; background: rgba(229,200,110,.15); color: #E5C86E; font-size: .75rem; font-weight: 600;">طلب الخدمة</span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.1);">
+                <span style="color: #b9c4e0; font-size: .8rem;">zuwar.ps/menu</span>
+                <span style="color: #E5C86E; font-size: .8rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                  معاينة مباشرة
+                  <span style="font-size: .9rem;">←</span>
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="zuwar-gallery">
-          <a class="zscreen" href="zuwar/app.html?screen=home" target="_blank" rel="noopener">
-            <div class="zscreen-phone">
-              <img src="zuwar/screens/home.png" alt="الشاشة الرئيسية لتطبيق مطعم زوّار" loading="lazy" />
+        <!-- Layaly Basma Menu -->
+        <a href="https://laialybasmamenu.com/" target="_blank" rel="noopener" style="text-decoration: none; display: block;">
+          <div style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; overflow: hidden; transition: all .3s ease; backdrop-filter: blur(10px);" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 50px rgba(0,0,0,.3)'; this.style.borderColor='rgba(122,63,209,.4)';" onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255,255,255,.1)';">
+            <!-- Image -->
+            <div style="position: relative; height: 220px; overflow: hidden; background: linear-gradient(135deg, #2d1b69, #1a1145);">
+              <img src="https://res.cloudinary.com/ubhucgne/image/fetch/f_auto,q_auto,c_limit,w_1080/https%3A%2F%2Flaialybasmamenu.com%2Fimages%2Flogo.png" alt="قائمة ليالي بسمة" style="width: 100%; height: 100%; object-fit: cover; opacity: .9;" loading="lazy" />
+              <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,17,69,.9), transparent);"></div>
+              <div style="position: absolute; top: 16px; right: 16px; display: flex; gap: 8px;">
+                <span style="padding: 6px 14px; border-radius: 999px; background: rgba(122,63,209,.9); color: #fff; font-size: .75rem; font-weight: 700;">مطعم</span>
+              </div>
+              <div style="position: absolute; bottom: 16px; right: 16px; left: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite;"></span>
+                  <span style="color: #fff; font-size: .8rem; font-weight: 600;">منيو مباشر</span>
+                </div>
+              </div>
             </div>
-            <div class="zscreen-cap"><span class="zscreen-num">01</span><b data-en="Home">الرئيسية</b><em data-en="Welcome &amp; chef specials">الاستقبال والأطباق المميزة</em></div>
-            <span class="zscreen-play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg></span>
-          </a>
-
-          <a class="zscreen" href="zuwar/app.html?screen=menu" target="_blank" rel="noopener">
-            <div class="zscreen-phone">
-              <img src="zuwar/screens/menu.png" alt="شاشة قائمة الطعام في تطبيق مطعم زوّار" loading="lazy" />
+            <!-- Content -->
+            <div style="padding: 24px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <h3 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin: 0;" data-en="Laialy Basma">ليالي بسمة</h3>
+                <span style="color: #7a3fd1; font-size: 1.2rem;">→</span>
+              </div>
+              <p style="color: #b9c4e0; font-size: .9rem; line-height: 1.7; margin: 0 0 16px;" data-en="A modern interactive menu for Laialy Basma restaurant — browse dishes, view prices, and order directly.">
+                منيو تفاعلي حديث لمطعم ليالي بسمة — استعرض الأطباع، اطلعوا على الأسعار، واطلب مباشرة.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                <span style="padding: 5px 12px; border-radius: 8px; background: rgba(122,63,209,.15); color: #7a3fd1; font-size: .75rem; font-weight: 600;">منيو رقمي</span>
+                <span style="padding: 5px 12px; border-radius: 8px; background: rgba(122,63,209,.15); color: #7a3fd1; font-size: .75rem; font-weight: 600;">صور الأطباق</span>
+                <span style="padding: 5px 12px; border-radius: 8px; background: rgba(122,63,209,.15); color: #7a3fd1; font-size: .75rem; font-weight: 600;">طلب مباشر</span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.1);">
+                <span style="color: #b9c4e0; font-size: .8rem;">laialybasmamenu.com</span>
+                <span style="color: #7a3fd1; font-size: .8rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                  معاينة مباشرة
+                  <span style="font-size: .9rem;">←</span>
+                </span>
+              </div>
             </div>
-            <div class="zscreen-cap"><span class="zscreen-num">02</span><b data-en="Menu">قائمة الطعام</b><em data-en="Dishes with photos &amp; prices">الأصناف بالصور والأسعار</em></div>
-            <span class="zscreen-play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg></span>
-          </a>
-
-          <a class="zscreen" href="zuwar/app.html?screen=dish" target="_blank" rel="noopener">
-            <div class="zscreen-phone">
-              <img src="zuwar/screens/dish.png" alt="شاشة تفاصيل الطبق في تطبيق مطعم زوّار" loading="lazy" />
-            </div>
-            <div class="zscreen-cap"><span class="zscreen-num">03</span><b data-en="Dish Details">تفاصيل الطبق</b><em data-en="Cooking options &amp; add-ons">خيارات الطهي والإضافات</em></div>
-            <span class="zscreen-play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg></span>
-          </a>
-
-          <a class="zscreen" href="zuwar/app.html?screen=reservation" target="_blank" rel="noopener">
-            <div class="zscreen-phone">
-              <img src="zuwar/screens/reservation.png" alt="شاشة حجز الطاولة وطلب الخدمة في تطبيق مطعم زوّار" loading="lazy" />
-            </div>
-            <div class="zscreen-cap"><span class="zscreen-num">04</span><b data-en="Booking &amp; Service">الحجز والخدمة</b><em data-en="Table booking, waiter &amp; bill">حجز، جرسون وفاتورة</em></div>
-            <span class="zscreen-play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg></span>
-          </a>
-        </div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
